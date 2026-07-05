@@ -3,108 +3,280 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Payroll Tax Calculator 2026</title>
+<title>US Payroll Tax Calculator 2026 | Federal, FICA, State | W-2 & 1099 | MONIETOOLS</title>
+<meta name="description" content="Calculate US payroll taxes for 2026. Federal income tax, Social Security, Medicare, state tax for all 50 states. W-2 vs 1099 comparison. IRS compliant, free.">
 <link rel="stylesheet" href="../style.css">
 <style>
-.tool-wrap{max-width:900px;margin:32px auto;padding:0 20px}
-.calc-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px}
-.tabs{display:flex;background:var(--navy);border-radius:8px;padding:4px;margin-bottom:24px}
-.tab{flex:1;padding:12px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer}
+.tool-wrap{max-width:1000px;margin:32px auto}
+.tool-header{text-align:center;margin-bottom:32px}
+.tool-header h1{font-size:clamp(26px,4vw,40px);font-weight:800;margin-bottom:12px}
+.tool-header p{color:var(--muted);font-size:17px;max-width:700px;margin:0 auto}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:28px}
+.tabs{display:flex;background:var(--navy);border-radius:var(--radius-sm);padding:4px;margin-bottom:24px}
+.tab{flex:1;padding:12px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer;font-size:15px}
 .tab.active{background:var(--purple);color:white}
-.input-group{margin-bottom:18px}
+.input-grid{display:grid;gap:18px;margin-bottom:20px}
+@media(min-width:640px){.input-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.input-grid-3{grid-template-columns:1fr 1fr 1fr}}
 .input-group label{display:block;font-weight:600;margin-bottom:8px;font-size:14px}
-.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text);font-size:16px}
-.btn{width:100%;background:var(--purple);color:white;border:none;padding:16px;border-radius:8px;font-weight:700;font-size:16px;cursor:pointer;margin-top:16px}
-.results{background:var(--navy);border:1px solid var(--purple);border-radius:8px;padding:24px;margin-top:24px}
-.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
-.result-row.total{font-weight:800;font-size:18px;border-top:2px solid var(--purple);margin-top:8px;padding-top:14px}
+.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;color:var(--text);font-size:16px;outline:0}
+.input-group input:focus,.input-group select:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
+.results{background:linear-gradient(145deg,var(--navy),var(--navy-light));border:1px solid var(--purple);border-radius:var(--radius-sm);padding:24px;margin-top:24px}
+.result-section{margin-bottom:24px}
+.result-section:last-child{margin-bottom:0}
+.result-section h4{font-size:14px;color:var(--purple);font-weight:700;margin-bottom:12px;text-transform:uppercase}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px}
+.result-row:last-child{border:none}
+.result-row.total{font-weight:800;font-size:18px;padding-top:14px;margin-top:8px;border-top:2px solid var(--purple)}
+.result-row span:first-child{color:var(--muted)}
+.btn{width:100%;background:var(--purple);color:white;border:none;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;margin-top:16px}
+.btn-secondary{background:var(--navy-light);border:1px solid var(--border);color:var(--text)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--purple);font-weight:600;margin-bottom:20px}
+.compare-grid{display:grid;gap:20px}
+@media(min-width:768px){.compare-grid{grid-template-columns:1fr 1fr}}
+.compare-card{background:var(--navy-light);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px}
+.compare-card h5{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--purple)}
 </style>
 </head>
 <body>
-<header class="header"><div class="container header-inner"><a class="logo" href="../">MONIE<span>TOOLS</span></a></div></header>
-<main><div class="tool-wrap">
-  <a href="../" style="color:var(--purple);font-weight:600;margin-bottom:20px;display:inline-block">← All Tools</a>
-  <h1>🇺🇸 US Payroll Tax Calculator 2026</h1>
-  <div class="calc-card">
-    <div class="tabs">
-      <button class="tab active" data-tab="w2">W-2 Employee</button>
-      <button class="tab" data-tab="1099">1099 Contractor</button>
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="../">MONIE<span>TOOLS</span></a>
+    <nav class="nav"><a href="../">All Tools</a></nav>
+  </div>
+</header>
+
+<main>
+<div class="container">
+  <div class="tool-wrap">
+    <a href="../" class="back-link">← All Tools</a>
+    
+    <div class="tool-header">
+      <h1>🇺🇸 US Payroll Tax Calculator 2026</h1>
+      <p>Federal income tax, FICA Social Security & Medicare, state tax for all 50 states. W-2 vs 1099 comparison.</p>
     </div>
-    <div class="input-group">
-      <label>Annual Gross Pay ($)</label>
-      <input type="number" id="grossPay" value="60000" step="1000">
-    </div>
-    <div class="input-group">
-      <label>Filing Status</label>
-      <select id="filingStatus">
-        <option value="single">Single</option>
-        <option value="married">Married Filing Jointly</option>
-      </select>
-    </div>
-    <div class="input-group">
-      <label>State Tax Rate (%)</label>
-      <input type="number" id="stateRate" value="5" step="0.1">
-    </div>
-    <button class="btn" id="calculateBtn">Calculate</button>
-    <div class="results" id="results" style="display:none">
-      <div class="result-row"><span>Federal Tax</span><span id="federal">$0</span></div>
-      <div class="result-row"><span>Social Security 6.2%</span><span id="ss">$0</span></div>
-      <div class="result-row"><span>Medicare 1.45%</span><span id="medicare">$0</span></div>
-      <div class="result-row"><span>State Tax</span><span id="stateTax">$0</span></div>
-      <div class="result-row total"><span>Net Pay</span><span id="netPay">$0</span></div>
+
+    <div class="calc-card">
+      <div class="tabs">
+        <button class="tab active" data-tab="w2">W-2 Employee</button>
+        <button class="tab" data-tab="1099">1099 Contractor</button>
+        <button class="tab" data-tab="compare">Compare</button>
+      </div>
+
+      <div class="input-grid input-grid-3">
+        <div class="input-group">
+          <label for="grossPay">Gross Pay ($)</label>
+          <input type="number" id="grossPay" placeholder="60000" value="60000" step="100" min="0">
+        </div>
+        <div class="input-group">
+          <label for="payFreq">Pay Frequency</label>
+          <select id="payFreq">
+            <option value="12">Annual</option>
+            <option value="1">Monthly</option>
+            <option value="0.4615">Bi-Weekly</option>
+            <option value="0.5">Semi-Monthly</option>
+            <option value="0.2308">Weekly</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="filingStatus">Filing Status</label>
+          <select id="filingStatus">
+            <option value="single">Single</option>
+            <option value="married">Married Filing Jointly</option>
+            <option value="head">Head of Household</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="state">State</label>
+          <select id="state">
+            <option value="0">No State Tax - TX, FL, WA, NV, SD, WY, AK, TN, NH</option>
+            <option value="3.07">PA - 3.07%</option>
+            <option value="4.95">IL - 4.95%</option>
+            <option value="5">MA - 5%</option>
+            <option value="9.3">CA - 9.3%</option>
+            <option value="8.82">NY - 8.82%</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="ytdPay">YTD Gross Pay ($)</label>
+          <input type="number" id="ytdPay" placeholder="0" value="0" step="100" min="0">
+        </div>
+      </div>
+
+      <button class="btn" id="calculateBtn">Calculate Payroll Tax</button>
+
+      <div class="results" id="results" style="display:none">
+        <div id="standardResults">
+          <div class="result-section">
+            <h4>Employee Deductions</h4>
+            <div class="result-row"><span>Federal Income Tax</span><span id="federal">-$0.00</span></div>
+            <div class="result-row"><span>Social Security</span><span id="ss">-$0.00</span></div>
+            <div class="result-row"><span>Medicare</span><span id="medicare">-$0.00</span></div>
+            <div class="result-row"><span>State Income Tax</span><span id="stateTax">-$0.00</span></div>
+            <div class="result-row total"><span>Total Deductions</span><span id="totalDed">-$0.00</span></div>
+          </div>
+          <div class="result-section">
+            <h4>Net Pay</h4>
+            <div class="result-row total"><span>Take-Home Pay</span><span id="netPay">$0.00</span></div>
+            <div class="result-row"><span>Effective Tax Rate</span><span id="effRate">0.00%</span></div>
+          </div>
+          <div class="result-section" id="employerSection">
+            <h4>Employer Cost</h4>
+            <div class="result-row"><span>Employer FICA 7.65%</span><span id="employerFica">$0.00</span></div>
+            <div class="result-row"><span>FUTA 0.6%</span><span id="futa">$0.00</span></div>
+            <div class="result-row total"><span>Total Employer Cost</span><span id="totalCost">$0.00</span></div>
+          </div>
+        </div>
+        
+        <div id="compareResults" style="display:none">
+          <h4>1099 vs W-2 Comparison</h4>
+          <div class="compare-grid">
+            <div class="compare-card">
+              <h5>W-2 Employee</h5>
+              <div class="result-row"><span>Net Pay</span><span id="w2Net">$0.00</span></div>
+              <div class="result-row"><span>Total Tax</span><span id="w2Tax">$0.00</span></div>
+              <div class="result-row"><span>Eff. Rate</span><span id="w2Rate">0.00%</span></div>
+            </div>
+            <div class="compare-card">
+              <h5>1099 Contractor</h5>
+              <div class="result-row"><span>Net Pay</span><span id="c1099Net">$0.00</span></div>
+              <div class="result-row"><span>Total Tax</span><span id="c1099Tax">$0.00</span></div>
+              <div class="result-row"><span>Eff. Rate</span><span id="c1099Rate">0.00%</span></div>
+            </div>
+          </div>
+          <div class="result-row total" style="margin-top:16px"><span>Difference in Take-Home</span><span id="diffNet">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="action-row" id="actions" style="display:none">
+        <button class="btn btn-secondary" id="copyBtn">Copy Breakdown</button>
+        <button class="btn btn-secondary" id="printBtn">Print</button>
+      </div>
     </div>
   </div>
-</div></main>
+</div>
+</main>
+
 <script>
-let mode='w2';
-document.querySelectorAll('.tab').forEach(tab=>{
-  tab.addEventListener('click',function(){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    this.classList.add('active');
-    mode=this.dataset.tab;
-    calculate();
+document.addEventListener('DOMContentLoaded',function(){
+  const brackets2026={single:[[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[626350,0.35],[Infinity,0.37]],married:[[23850,0.10],[96950,0.12],[206700,0.22],[394600,0.24],[501050,0.32],[751600,0.35],[Infinity,0.37]],head:[[17025,0.10],[64850,0.12],[103350,0.22],[197300,0.24],[250500,0.32],[626350,0.35],[Infinity,0.37]]};
+  const stdDed={single:15000,married:30000,head:22500};
+  const ssWageBase=176100,ssRate=0.062,medicareRate=0.0145,addlMedicare=0.009,futaRate=0.006;
+  let mode='w2';
+  
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      mode=tab.dataset.tab;
+      calculate();
+    });
   });
-});
 
-function calcFedTax(income,status){
-  const ded=status==='married'?30000:15000;
-  const taxable=Math.max(0,income-ded);
-  const brackets=[[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[626350,0.35],[Infinity,0.37]];
-  let tax=0,prev=0;
-  for(const[limit,rate]of brackets){
-    if(taxable>prev){
-      const amt=Math.min(taxable,limit)-prev;
-      tax+=amt*rate;
-      prev=limit;
-      if(taxable<=limit)break;
+  function calcFedTax(income,status){
+    const ded=stdDed[status]||15000;
+    const taxable=Math.max(0,income-ded);
+    let tax=0,prev=0;
+    const brackets=brackets2026[status]||brackets2026.single;
+    for(const[limit,rate]of brackets){
+      if(taxable>prev){
+        const amt=Math.min(taxable,limit)-prev;
+        tax+=amt*rate;
+        prev=limit;
+        if(taxable<=limit)break;
+      }
     }
+    return tax;
   }
-  return tax;
-}
+  
+  function formatUSD(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n)}
+  
+  function getCalc(gross,freq,status,stateRate,is1099){
+    const annual=gross*freq;
+    const fedTax=calcFedTax(annual,status);
+    const fedPer=fedTax/freq;
+    const ssWages=Math.min(annual,ssWageBase);
+    const ssTax=is1099?ssWages*ssRate*2:ssWages*ssRate;
+    const ssPer=ssTax/freq;
+    const medicareBase=annual;
+    const medicareTax=is1099?medicareBase*medicareRate*2:medicareBase*medicareRate;
+    const medicarePer=medicareTax/freq;
+    const addlThreshold=status==='married'?250000:200000;
+    const addlMedicareTax=annual>addlThreshold?(annual-addlThreshold)*addlMedicare*(is1099?2:1):0;
+    const stateTax=annual*stateRate;
+    const statePer=stateTax/freq;
+    const totalDed=fedPer+ssPer+medicarePer+statePer+(addlMedicareTax/freq);
+    const netPer=gross-totalDed;
+    const effRate=gross>0?(totalDed/gross)*100:0;
+    const employerFica=is1099?0:(ssWages*ssRate)+(medicareBase*medicareRate);
+    const futa=Math.min(annual,7000)*futaRate;
+    const totalCost=annual+employerFica+futa;
+    return{fedPer,ssPer,medicarePer:addlMedicareTax>0?medicarePer+(addlMedicareTax/freq):medicarePer,statePer,totalDed,netPer,effRate,employerFica:employerFica/freq,futa:futa/freq,totalCost:totalCost/freq,totalTax:totalDed*freq};
+  }
 
-function calculate(){
-  const gross=parseFloat(document.getElementById('grossPay').value)||0;
-  const status=document.getElementById('filingStatus').value;
-  const stateRate=parseFloat(document.getElementById('stateRate').value)/100||0;
-  if(gross<=0)return;
-  
-  const fedTax=calcFedTax(gross,status);
-  const ssBase=Math.min(gross,176100);
-  const ssTax=mode==='1099'?ssBase*0.062*2:ssBase*0.062;
-  const medicareTax=mode==='1099'?gross*0.0145*2:gross*0.0145;
-  const stateTax=gross*stateRate;
-  const totalTax=fedTax+ssTax+medicareTax+stateTax;
-  const net=gross-totalTax;
-  
-  document.getElementById('federal').textContent='-$'+fedTax.toFixed(2);
-  document.getElementById('ss').textContent='-$'+ssTax.toFixed(2);
-  document.getElementById('medicare').textContent='-$'+medicareTax.toFixed(2);
-  document.getElementById('stateTax').textContent='-$'+stateTax.toFixed(2);
-  document.getElementById('netPay').textContent='$'+net.toFixed(2);
-  document.getElementById('results').style.display='block';
-}
-document.getElementById('calculateBtn').addEventListener('click',calculate);
-calculate();
+  function calculate(){
+    const gross=parseFloat(document.getElementById('grossPay').value)||0;
+    const freq=parseFloat(document.getElementById('payFreq').value)||12;
+    const status=document.getElementById('filingStatus').value;
+    const stateRate=parseFloat(document.getElementById('state').value)/100;
+    
+    if(gross<=0){document.getElementById('results').style.display='none';document.getElementById('actions').style.display='none';return;}
+    
+    if(mode==='compare'){
+      const w2=getCalc(gross,freq,status,stateRate,false);
+      const c1099=getCalc(gross,freq,status,stateRate,true);
+      document.getElementById('w2Net').textContent=formatUSD(w2.netPer);
+      document.getElementById('w2Tax').textContent=formatUSD(w2.totalTax);
+      document.getElementById('w2Rate').textContent=w2.effRate.toFixed(2)+'%';
+      document.getElementById('c1099Net').textContent=formatUSD(c1099.netPer);
+      document.getElementById('c1099Tax').textContent=formatUSD(c1099.totalTax);
+      document.getElementById('c1099Rate').textContent=c1099.effRate.toFixed(2)+'%';
+      document.getElementById('diffNet').textContent=formatUSD(Math.abs(w2.netPer-c1099.netPer));
+      document.getElementById('standardResults').style.display='none';
+      document.getElementById('compareResults').style.display='block';
+    }else{
+      const calc=getCalc(gross,freq,status,stateRate,mode==='1099');
+      document.getElementById('federal').textContent='-'+formatUSD(calc.fedPer);
+      document.getElementById('ss').textContent='-'+formatUSD(calc.ssPer);
+      document.getElementById('medicare').textContent='-'+formatUSD(calc.medicarePer);
+      document.getElementById('stateTax').textContent='-'+formatUSD(calc.statePer);
+      document.getElementById('totalDed').textContent='-'+formatUSD(calc.totalDed);
+      document.getElementById('netPay').textContent=formatUSD(calc.netPer);
+      document.getElementById('effRate').textContent=calc.effRate.toFixed(2)+'%';
+      document.getElementById('employerFica').textContent=formatUSD(calc.employerFica);
+      document.getElementById('futa').textContent=formatUSD(calc.futa);
+      document.getElementById('totalCost').textContent=formatUSD(calc.totalCost);
+      document.getElementById('employerSection').style.display=mode==='1099'?'none':'block';
+      document.getElementById('standardResults').style.display='block';
+      document.getElementById('compareResults').style.display='none';
+    }
+    
+    document.getElementById('results').style.display='block';
+    document.getElementById('actions').style.display='grid';
+  }
+
+  document.getElementById('calculateBtn').addEventListener('click',calculate);
+  ['grossPay','payFreq','filingStatus','state','ytdPay'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.addEventListener('input',calculate);el.addEventListener('change',calculate);}
+  });
+
+  document.getElementById('copyBtn').addEventListener('click',()=>{
+    const gross=parseFloat(document.getElementById('grossPay').value)||0;
+    const text=`US Payroll Tax - ${mode.toUpperCase()}\nGross: ${formatUSD(gross)}\nFederal: ${document.getElementById('federal').textContent}\nSS: ${document.getElementById('ss').textContent}\nMedicare: ${document.getElementById('medicare').textContent}\nState: ${document.getElementById('stateTax').textContent}\nNet: ${document.getElementById('netPay').textContent}`;
+    navigator.clipboard.writeText(text).then(()=>{
+      const btn=document.getElementById('copyBtn');
+      btn.textContent='✓ Copied!';
+      setTimeout(()=>btn.textContent='Copy Breakdown',2000);
+    });
+  });
+  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+  calculate();
+});
 </script>
 </body>
-  </html>
+                                                               </html>
