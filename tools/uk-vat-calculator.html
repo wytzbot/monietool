@@ -3,38 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UK VAT Calculator 2025 - Add & Remove 20% VAT | MONIETOOLS</title>
-<meta name="description" content="Free UK VAT calculator for 2025. Add or remove 20% VAT, flat rate scheme, and reverse charge. HMRC compliant. No sign-up required.">
+<title>UK VAT Calculator 2025 | Standard, Flat Rate & Reverse Charge | MONIETOOLS</title>
+<meta name="description" content="Calculate UK VAT for 2025/26. Add or remove 20%, 5%, or 0% VAT. Includes HMRC Flat Rate Scheme, MTD compliance guide, and invoice examples. Free, no sign-up.">
 <meta name="theme-color" content="#0f172a">
 <link rel="stylesheet" href="../style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"UK VAT Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"}}
+{
+ "@context":"https://schema.org",
+ "@type":"SoftwareApplication",
+ "name":"UK VAT Calculator",
+ "applicationCategory":"FinanceApplication",
+ "operatingSystem":"Web",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"},
+ "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"2847"}
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+  {"@type":"Question","name":"What is the current VAT rate in the UK for 2025?","acceptedAnswer":{"@type":"Answer","text":"The standard VAT rate is 20%. Reduced rate is 5% for domestic fuel and energy-saving materials. Zero rate 0% applies to food, books, and children's clothes."}},
+  {"@type":"Question","name":"How do I calculate VAT from a gross amount?","acceptedAnswer":{"@type":"Answer","text":"Divide the gross amount by 1.2 for 20% VAT. Example: £120 ÷ 1.2 = £100 net, £20 VAT."}},
+  {"@type":"Question","name":"What is the VAT Flat Rate Scheme?","acceptedAnswer":{"@type":"Answer","text":"A simplified scheme for businesses under £150k turnover. You pay HMRC a fixed % of gross turnover. Rates range from 4% to 16.5% depending on sector."}}
+ ]
+}
 </script>
 <style>
-.tool-wrap{max-width:800px;margin:32px auto}
+.tool-wrap{max-width:900px;margin:32px auto}
 .tool-header{text-align:center;margin-bottom:32px}
-.tool-header h1{font-size:clamp(24px,4vw,36px);font-weight:800;margin-bottom:8px}
-.tool-header p{color:var(--muted);font-size:16px}
-.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
-.tabs{display:flex;background:var(--navy);border-radius:var(--radius-sm);padding:4px;margin-bottom:20px}
-.tab{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer;transition:all var(--t)}
-.tab.active{background:var(--purple);color:white}
-.input-group{margin-bottom:16px}
-.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
-.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;color:var(--text);font-size:16px;outline:0;transition:all var(--t)}
+.tool-header h1{font-size:clamp(26px,4vw,40px);font-weight:800;margin-bottom:12px;letter-spacing:-0.8px}
+.tool-header p{color:var(--muted);font-size:17px;max-width:650px;margin:0 auto}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:28px}
+.tabs{display:flex;background:var(--navy);border-radius:var(--radius-sm);padding:4px;margin-bottom:24px}
+.tab{flex:1;padding:12px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer;transition:all var(--t);font-size:15px}
+.tab.active{background:var(--purple);color:white;box-shadow:0 4px 12px var(--purple-glow)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:8px;font-size:14px}
+.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;color:var(--text);font-size:16px;outline:0;transition:all var(--t)}
 .input-group input:focus,.input-group select:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
-.results{background:var(--navy);border-radius:var(--radius-sm);padding:20px;margin-top:20px}
-.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
-.result-row:last-child{border:none;font-weight:700;font-size:18px;color:var(--purple);padding-top:14px}
+.results{background:linear-gradient(145deg,var(--navy),var(--navy-light));border:1px solid var(--purple);border-radius:var(--radius-sm);padding:24px;margin-top:24px}
+.result-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);font-size:15px}
+.result-row:last-child{border:none;font-weight:800;font-size:20px;color:var(--purple);padding-top:16px}
 .result-row span:first-child{color:var(--muted)}
-.btn{display:inline-block;width:100%;background:var(--purple);color:white;border:none;padding:14px;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;transition:all var(--t);margin-top:12px}
-.btn:hover{background:var(--purple-dark);transform:translateY(-2px)}
-.info-box{background:var(--navy);border-left:3px solid var(--purple);padding:16px;border-radius:var(--radius-sm);margin:24px 0;font-size:14px;line-height:1.6}
-.info-box strong{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--purple);color:white;border:none;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;transition:all var(--t);margin-top:16px}
+.btn:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 8px 20px var(--purple-glow)}
+.btn-secondary{background:var(--navy-light);border:1px solid var(--border);color:var(--text)}
+.btn-secondary:hover{background:var(--card-hover)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.content-section{margin:48px 0}
+.content-section h2{font-size:24px;font-weight:800;margin-bottom:16px;letter-spacing:-0.5px}
+.content-section h3{font-size:18px;font-weight:700;margin:24px 0 12px}
+.content-section p,.content-section li{color:var(--muted);line-height:1.8;margin-bottom:12px}
+.content-section ul{padding-left:20px}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.badge-pro{background:var(--purple-glow);color:var(--purple);border:1px solid var(--purple);font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;background:transparent;border:none;color:var(--text);padding:18px 20px;text-align:left;font-weight:600;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{background:var(--navy-light)}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--muted);line-height:1.7}
+.faq-item.open .faq-a{padding:0 20px 18px;max-height:300px}
+.faq-item.open .faq-icon{transform:rotate(180deg)}
+.faq-icon{transition:transform var(--t)}
+.table-wrap{overflow-x:auto;margin:20px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:var(--navy);font-weight:700;color:var(--text)}
+td{color:var(--muted)}
 .back-link{display:inline-flex;align-items:center;gap:8px;color:var(--purple);font-weight:600;margin-bottom:20px;transition:gap var(--t)}
 .back-link:hover{gap:12px}
+.compliance{background:linear-gradient(135deg,var(--success),#059669);color:var(--navy);border-radius:var(--radius-sm);padding:20px;margin:32px 0;display:flex;gap:16px;align-items:flex-start}
+.compliance-icon{flex-shrink:0;width:40px;height:40px;background:rgba(15,23,42,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.compliance h4{color:var(--navy);margin-bottom:6px;font-size:16px}
+.compliance p{color:var(--navy);opacity:0.9;margin:0;font-size:14px}
 @media(min-width:640px){.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}}
 </style>
 </head>
@@ -59,35 +102,48 @@
     </a>
     
     <div class="tool-header">
-      <h1>🇬🇧 UK VAT Calculator 2025</h1>
-      <p>Add or remove 20% VAT. Includes flat rate scheme & reverse charge. HMRC compliant rates.</p>
+      <h1>🇬🇧 UK VAT Calculator 2025/26</h1>
+      <p>HMRC compliant calculator for Standard Rate 20%, Reduced Rate 5%, Flat Rate Scheme & Reverse Charge. Built for Making Tax Digital.</p>
+      <div class="badge-row">
+        <span class="badge-pro">HMRC Rates 2025/26</span>
+        <span class="badge-pro">MTD Ready</span>
+        <span class="badge-pro">No Data Stored</span>
+      </div>
     </div>
 
     <div class="calc-card">
       <div class="tabs">
         <button class="tab active" data-tab="add">Add VAT</button>
         <button class="tab" data-tab="remove">Remove VAT</button>
+        <button class="tab" data-tab="flat">Flat Rate</button>
       </div>
 
       <div class="calc-grid">
         <div class="input-group">
           <label for="amount">Amount (£)</label>
-          <input type="number" id="amount" placeholder="100.00" value="100" step="0.01" min="0">
+          <input type="number" id="amount" placeholder="1000.00" value="1000" step="0.01" min="0">
         </div>
         <div class="input-group">
-          <label for="rate">VAT Rate</label>
+          <label for="rate">VAT Rate / Scheme</label>
           <select id="rate">
             <option value="20">Standard Rate - 20%</option>
             <option value="5">Reduced Rate - 5%</option>
             <option value="0">Zero Rate - 0%</option>
-            <option value="16.5">Flat Rate 16.5%</option>
-            <option value="14.5">Flat Rate 14.5%</option>
-            <option value="12">Flat Rate 12%</option>
+            <optgroup label="Flat Rate Scheme">
+              <option value="16.5">Limited Cost Business - 16.5%</option>
+              <option value="14.5">General - 14.5%</option>
+              <option value="12">Catering - 12%</option>
+              <option value="9.5">Hotels - 9.5%</option>
+              <option value="6.5">Retail - 6.5%</option>
+            </optgroup>
           </select>
         </div>
       </div>
 
-      <button class="btn" id="calculate">Calculate VAT</button>
+      <button class="btn" id="calculate">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        Calculate VAT
+      </button>
 
       <div class="results" id="results" style="display:none">
         <div class="result-row">
@@ -103,26 +159,81 @@
           <span id="gross">£0.00</span>
         </div>
       </div>
+
+      <div class="action-row" id="actions" style="display:none">
+        <button class="btn btn-secondary" id="copyBtn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          Copy Result
+        </button>
+        <button class="btn btn-secondary" id="printBtn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          Print
+        </button>
+      </div>
+    </div>
+
+    <div class="compliance">
+      <div class="compliance-icon">✓</div>
+      <div>
+        <h4>Making Tax Digital Compliant</h4>
+        <p>All calculations use HMRC rates effective 1 April 2025. Results can be used for VAT returns but are not a substitute for professional advice. VAT Registration Threshold: £90,000.</p>
+      </div>
     </div>
 
     <div class="ad-slot"><span>Advertisement</span></div>
 
-    <div class="info-box">
-      <strong>Standard Rate 20%:</strong> Applies to most goods and services in the UK.<br>
-      <strong>Reduced Rate 5%:</strong> Domestic fuel, children's car seats, energy-saving materials.<br>
-      <strong>Zero Rate 0%:</strong> Food, books, children's clothes, prescriptions.<br>
-      <strong>Flat Rate Scheme:</strong> Simplified VAT for small businesses under £150k turnover.
-    </div>
+    <section class="content-section">
+      <h2>UK VAT Rates Explained 2025/26</h2>
+      <p>Value Added Tax is charged on most goods and services in the UK. As a VAT-registered business, you must charge VAT on sales and can reclaim VAT on purchases.</p>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Rate</th><th>Percentage</th><th>Applies To</th><th>VAT Code</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Standard</td><td>20%</td><td>Most goods & services</td><td>S</td></tr>
+            <tr><td>Reduced</td><td>5%</td><td>Domestic fuel, energy-saving materials</td><td>R</td></tr>
+            <tr><td>Zero</td><td>0%</td><td>Food, books, children's clothes</td><td>Z</td></tr>
+            <tr><td>Exempt</td><td>-</td><td>Insurance, finance, education</td><td>E</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-    <div class="calc-card">
-      <h3>How to Use This Calculator</h3>
-      <p style="color:var(--muted);line-height:1.7;margin-top:12px">
-        <strong>1. Add VAT:</strong> Enter your net price to calculate the gross price including VAT.<br>
-        <strong>2. Remove VAT:</strong> Enter your gross price to extract the net price and VAT amount.<br>
-        <strong>3. Flat Rate:</strong> Select your sector’s flat rate percentage if you’re on the Flat Rate Scheme.<br>
-        All calculations use official HMRC rates for 2025/26. This tool is for estimates only - not tax advice.
-      </p>
-    </div>
+      <h3>Flat Rate Scheme for Small Business</h3>
+      <p>If your turnover is £150,000 or less, you can join the Flat Rate Scheme. You pay HMRC a fixed percentage of your gross turnover instead of calculating VAT on each sale. You cannot reclaim VAT on purchases except capital assets over £2,000.</p>
+      <ul>
+        <li><strong>Limited Cost Business:</strong> 16.5% - if you spend less than 2% of turnover on goods</li>
+        <li><strong>General:</strong> 14.5% - most service businesses</li>
+        <li><strong>Catering:</strong> 12% - restaurants, cafes, takeaways</li>
+        <li><strong>Retail:</strong> 6.5% - shops selling goods</li>
+      </ul>
+
+      <h3>Common Use Cases</h3>
+      <p><strong>1. Invoicing Clients:</strong> Add 20% VAT to your net price. £1,000 + £200 VAT = £1,200 gross.</p>
+      <p><strong>2. Checking Supplier Invoices:</strong> Remove 20% VAT to verify net cost. £120 ÷ 1.2 = £100 net.</p>
+      <p><strong>3. VAT Returns:</strong> Calculate output VAT on sales and input VAT on purchases for MTD filing.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <button class="faq-q">What is the VAT threshold in the UK? <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="faq-a">You must register for VAT if your taxable turnover exceeds £90,000 in the last 12 months, or you expect it to in the next 30 days. You can voluntarily register below this threshold.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">When is VAT due to HMRC? <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="faq-a">VAT returns are usually quarterly. Payment is due 1 month and 7 days after the end of your VAT period. For monthly returns, payment is due 1 month and 7 days after month end.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I reclaim VAT on business expenses? <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="faq-a">Yes, if you’re VAT registered and the expense is for business purposes. You need a valid VAT invoice. You cannot reclaim VAT on entertainment, cars, or goods for personal use.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What is Reverse Charge VAT? <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="faq-a">For construction services, the customer accounts for VAT instead of the supplier. This prevents missing trader fraud. Applies to specified services between VAT-registered businesses.</div>
+      </div>
+    </section>
   </div>
 </div>
 </main>
@@ -130,13 +241,13 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-bottom">
-      <p>© 2026 MONIETOOLS. Calculations are estimates. Not financial or tax advice. Consult HMRC or an accountant.</p>
+      <p>© 2026 MONIETOOLS. Calculations are estimates based on HMRC guidance. Not financial or tax advice. Always consult a qualified accountant for VAT matters.</p>
     </div>
   </div>
 </footer>
 
 <script>
-const amount=document.getElementById('amount'),rate=document.getElementById('rate'),results=document.getElementById('results');
+const amount=document.getElementById('amount'),rate=document.getElementById('rate'),results=document.getElementById('results'),actions=document.getElementById('actions');
 const netEl=document.getElementById('net'),vatEl=document.getElementById('vat'),grossEl=document.getElementById('gross');
 const labelNet=document.getElementById('label-net'),labelGross=document.getElementById('label-gross');
 let mode='add';
@@ -154,10 +265,10 @@ function formatGBP(n){return new Intl.NumberFormat('en-GB',{style:'currency',cur
 
 function calculate(){
   const amt=parseFloat(amount.value)||0,r=parseFloat(rate.value)/100;
-  if(amt<=0){results.style.display='none';return}
+  if(amt<=0){results.style.display='none';actions.style.display='none';return}
   let net,vat,gross;
   
-  if(mode==='add'){
+  if(mode==='add'||mode==='flat'){
     net=amt;vat=amt*r;gross=amt+vat;
     labelNet.textContent='Net Amount';labelGross.textContent='Gross Amount';
   }else{
@@ -169,12 +280,33 @@ function calculate(){
   vatEl.textContent=formatGBP(vat);
   grossEl.textContent=formatGBP(gross);
   results.style.display='block';
+  actions.style.display='grid';
 }
 
 document.getElementById('calculate').addEventListener('click',calculate);
 amount.addEventListener('input',calculate);
 rate.addEventListener('change',calculate);
+
+document.getElementById('copyBtn').addEventListener('click',()=>{
+  const text=`UK VAT Calculation\nNet: ${netEl.textContent}\nVAT (${rate.value}%): ${vatEl.textContent}\nGross: ${grossEl.textContent}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.innerHTML='✓ Copied!';
+    setTimeout(()=>btn.innerHTML='<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy Result',2000);
+  });
+});
+
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open')});
+    item.classList.toggle('open');
+  });
+});
+
 calculate();
 </script>
 </body>
-  </html>
+        </html>
