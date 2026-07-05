@@ -177,7 +177,7 @@ td{color:var(--muted)}
         </div>
       </div>
 
-      <button class="btn" id="calculate">
+      <button class="btn" id="calculateBtn">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
         Calculate Payroll Tax
       </button>
@@ -283,64 +283,62 @@ td{color:var(--muted)}
 </footer>
 
 <script>
-const brackets2026={
-  single:[[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[626350,0.35],[Infinity,0.37]],
-  married:[[23850,0.10],[96950,0.12],[206700,0.22],[394600,0.24],[501050,0.32],[751600,0.35],[Infinity,0.37]],
-  head:[[17025,0.10],[64850,0.12],[103350,0.22],[197300,0.24],[250500,0.32],[626350,0.35],[Infinity,0.37]]
-};
-const stdDed={single:15000,married:30000,head:22500};
-const ssWageBase=176100,ssRate=0.062,medicareRate=0.0145,addlMedicare=0.009,futaRate=0.006;
+document.addEventListener('DOMContentLoaded',function(){
+  const brackets2026={
+    single:[[11925,0.10],[48475,0.12],[103350,0.22],[197300,0.24],[250525,0.32],[626350,0.35],[Infinity,0.37]],
+    married:[[23850,0.10],[96950,0.12],[206700,0.22],[394600,0.24],[501050,0.32],[751600,0.35],[Infinity,0.37]],
+    head:[[17025,0.10],[64850,0.12],[103350,0.22],[197300,0.24],[250500,0.32],[626350,0.35],[Infinity,0.37]]
+  };
+  const stdDed={single:15000,married:30000,head:22500};
+  const ssWageBase=176100,ssRate=0.062,medicareRate=0.0145,addlMedicare=0.009,futaRate=0.006;
 
-let mode='w2';
-document.querySelectorAll('.tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    mode=tab.dataset.tab;
-    document.getElementById('employerSection').style.display=mode==='1099'?'none':'block';
-    calculate();
+  let mode='w2';
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      mode=tab.dataset.tab;
+      const empSec=document.getElementById('employerSection');
+      if(empSec)empSec.style.display=mode==='1099'?'none':'block';
+      calculate();
+    });
   });
-});
 
-function calcFedTax(income,status){
-  const ded=stdDed[status];
-  const taxable=Math.max(0,income-ded);
-  let tax=0,prev=0;
-  for(const[limit,rate]of brackets2026[status]){
-    if(taxable>prev){
-      const amt=Math.min(taxable,limit)-prev;
-      tax+=amt*rate;
-      prev=limit;
-      if(taxable<=limit)break;
+  function calcFedTax(income,status){
+    const ded=stdDed[status]||15000;
+    const taxable=Math.max(0,income-ded);
+    let tax=0,prev=0;
+    const brackets=brackets2026[status]||brackets2026.single;
+    for(const[limit,rate]of brackets){
+      if(taxable>prev){
+        const amt=Math.min(taxable,limit)-prev;
+        tax+=amt*rate;
+        prev=limit;
+        if(taxable<=limit)break;
+      }
     }
+    return tax;
   }
-  return tax;
-}
 
-function formatUSD(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n)}
-function formatPct(n){return (n*100).toFixed(2)+'%'}
+  function formatUSD(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n)}
 
-function calculate(){
-  const gross=parseFloat(document.getElementById('grossPay').value)||0;
-  const freq=parseFloat(document.getElementById('payFreq').value);
-  const annual=gross*freq;
-  const ytd=parseFloat(document.getElementById('ytdPay').value)||0;
-  const status=document.getElementById('filingStatus').value;
-  const stateRate=parseFloat(document.getElementById('state').value)/100;
-  
-  if(annual<=0){document.getElementById('results').style.display='none';document.getElementById('actions').style.display='none';return}
-  
-  // Federal
-  const fedTax=calcFedTax(annual,status);
-  const fedPerPeriod=fedTax/freq;
-  
-  // FICA
-  const ssWages=Math.min(annual,ssWageBase);
-  const ssTax=mode==='1099'?ssWages*ssRate*2:ssWages*ssRate;
-  const ssPerPeriod=ssTax/freq;
-  
-  const medicareBase=annual;
-  const medicareTax=mode==='1099'?medicareBase*medicareRate*2:medicareBase*medicareRate;
-  const medicarePerPeriod=medicareTax/freq;
-  
-  // Ad
+  function calculate(){
+    const gross=parseFloat(document.getElementById('grossPay').value)||0;
+    const freq=parseFloat(document.getElementById('payFreq').value)||12;
+    const annual=gross*freq;
+    const ytd=parseFloat(document.getElementById('ytdPay').value)||0;
+    const status=document.getElementById('filingStatus').value;
+    const stateRate=parseFloat(document.getElementById('state').value)/100;
+    
+    if(annual<=0){
+      document.getElementById('results').style.display='none';
+      document.getElementById('actions').style.display='none';
+      return;
+    }
+    
+    const fedTax=calcFedTax(annual,status);
+    const fedPerPeriod=fedTax/freq;
+    
+    const ssWages=Math.min(annual,ssWageBase);
+    const ssTax=mode==='1099'?ssWages*ssRate*2:ssWages*ssRate;
+    
