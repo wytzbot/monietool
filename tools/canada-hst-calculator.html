@@ -82,6 +82,10 @@ th{background:var(--navy);font-weight:700;color:var(--text)}
 td{color:var(--muted)}
 .province-info{background:var(--navy-light);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-top:12px;font-size:14px}
 .province-info strong{color:var(--purple)}
+.compare-grid{display:grid;gap:20px}
+@media(min-width:768px){.compare-grid{grid-template-columns:1fr 1fr}}
+.compare-card{background:var(--navy-light);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px}
+.compare-card h5{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--purple)}
 </style>
 </head>
 <body>
@@ -118,7 +122,7 @@ td{color:var(--muted)}
       <div class="tabs">
         <button class="tab active" data-tab="add">Add Tax</button>
         <button class="tab" data-tab="remove">Remove Tax</button>
-        <button class="tab" data-tab="breakdown">Full Breakdown</button>
+        <button class="tab" data-tab="breakdown">Side-by-Side</button>
       </div>
 
       <div class="input-grid">
@@ -156,21 +160,41 @@ td{color:var(--muted)}
       </button>
 
       <div class="results" id="results" style="display:none">
-        <div class="result-section">
-          <h4>Tax Breakdown</h4>
-          <div class="result-row"><span>Subtotal - Before Tax</span><span id="subtotal">$0.00</span></div>
-          <div class="result-row" id="gstRow"><span>GST 5%</span><span id="gst">$0.00</span></div>
-          <div class="result-row" id="pstRow" style="display:none"><span id="pstLabel">PST</span><span id="pst">$0.00</span></div>
-          <div class="result-row" id="hstRow" style="display:none"><span>HST</span><span id="hst">$0.00</span></div>
-          <div class="result-row" id="qstRow" style="display:none"><span>QST 9.975%</span><span id="qst">$0.00</span></div>
-          <div class="result-row total"><span>Total - With Tax</span><span id="total">$0.00</span></div>
+        <div id="standardResults">
+          <div class="result-section">
+            <h4>Tax Breakdown</h4>
+            <div class="result-row"><span>Subtotal - Before Tax</span><span id="subtotal">$0.00</span></div>
+            <div class="result-row" id="gstRow"><span>GST 5%</span><span id="gst">$0.00</span></div>
+            <div class="result-row" id="pstRow" style="display:none"><span id="pstLabel">PST</span><span id="pst">$0.00</span></div>
+            <div class="result-row" id="hstRow" style="display:none"><span>HST</span><span id="hst">$0.00</span></div>
+            <div class="result-row" id="qstRow" style="display:none"><span>QST 9.975%</span><span id="qst">$0.00</span></div>
+            <div class="result-row total"><span>Total - With Tax</span><span id="total">$0.00</span></div>
+          </div>
+
+          <div class="result-section">
+            <h4>Summary</h4>
+            <div class="result-row"><span>Total Tax Amount</span><span id="totalTax">$0.00</span></div>
+            <div class="result-row"><span>Effective Tax Rate</span><span id="effRate">0.00%</span></div>
+            <div class="result-row"><span>Province</span><span id="provinceName">Ontario</span></div>
+          </div>
         </div>
 
-        <div class="result-section">
-          <h4>Summary</h4>
-          <div class="result-row"><span>Total Tax Amount</span><span id="totalTax">$0.00</span></div>
-          <div class="result-row"><span>Effective Tax Rate</span><span id="effRate">0.00%</span></div>
-          <div class="result-row"><span>Province</span><span id="provinceName">Ontario</span></div>
+        <div id="compareResults" style="display:none">
+          <h4>Add vs Remove Tax Comparison</h4>
+          <div class="compare-grid">
+            <div class="compare-card">
+              <h5>If $1000 is Before Tax</h5>
+              <div class="result-row"><span>Subtotal</span><span id="addSubtotal">$0.00</span></div>
+              <div class="result-row"><span>Tax Added</span><span id="addTax">$0.00</span></div>
+              <div class="result-row total"><span>Total</span><span id="addTotal">$0.00</span></div>
+            </div>
+            <div class="compare-card">
+              <h5>If $1000 Includes Tax</h5>
+              <div class="result-row"><span>Subtotal</span><span id="remSubtotal">$0.00</span></div>
+              <div class="result-row"><span>Tax Included</span><span id="remTax">$0.00</span></div>
+              <div class="result-row total"><span>Total</span><span id="remTotal">$0.00</span></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -277,6 +301,54 @@ document.addEventListener('DOMContentLoaded',function(){
     if(data)infoEl.innerHTML=`<strong>${data.name}:</strong> ${data.info}`;
   }
 
+  function calcTaxes(amount,data,isRemove){
+    let subtotal,gst=0,pst=0,hst=0,qst=0,total;
+    
+    if(isRemove){
+      total=amount;
+      if(data.type==='hst'){
+        subtotal=total/(1+data.hst);
+        hst=total-subtotal;
+      }else if(data.type==='qst'&&data.gst&&data.qst){
+        // Quebec: reverse QST then GST
+        const afterQST=total/(1+data.qst);
+        subtotal=afterQST/(1+data.gst);
+        gst=afterQST-subtotal;
+        qst=total-afterQST;
+      }else if(data.type==='gstpst'&&data.gst&&data.pst){
+        subtotal=total/(1+data.gst+data.pst);
+        gst=subtotal*data.gst;
+        pst=subtotal*data.pst;
+      }else if(data.gst){
+        subtotal=total/(1+data.gst);
+        gst=total-subtotal;
+      }else{
+        subtotal=total;
+      }
+    }else{
+      subtotal=amount;
+      if(data.type==='hst'&&data.hst){
+        hst=subtotal*data.hst;
+        total=subtotal+hst;
+      }else if(data.type==='qst'&&data.gst&&data.qst){
+        gst=subtotal*data.gst;
+        const afterGST=subtotal+gst;
+        qst=afterGST*data.qst;
+        total=subtotal+gst+qst;
+      }else if(data.type==='gstpst'&&data.gst&&data.pst){
+        gst=subtotal*data.gst;
+        pst=subtotal*data.pst;
+        total=subtotal+gst+pst;
+      }else if(data.gst){
+        gst=subtotal*data.gst;
+        total=subtotal+gst;
+      }else{
+        total=subtotal;
+      }
+    }
+    return{subtotal,gst,pst,hst,qst,total};
+  }
+
   function calculate(){
     const amountEl=document.getElementById('amount');
     const provEl=document.getElementById('province');
@@ -295,98 +367,7 @@ document.addEventListener('DOMContentLoaded',function(){
       return;
     }
 
-    let subtotal,gst=0,pst=0,hst=0,qst=0,total;
-
-    if(mode==='remove'){
-      // Amount includes tax - remove it
-      total=amount;
-      if(data.type==='hst'){
-        subtotal=total/(1+data.hst);
-        hst=total-subtotal;
-      }else if(data.type==='qst'){
-        // Quebec: reverse QST then GST
-        const afterQST=total/(1+data.qst);
-        subtotal=afterQST/(1+data.gst);
-        gst=afterQST-subtotal;
-        qst=total-afterQST;
-      }else if(data.type==='gstpst'){
-        subtotal=total/(1+data.gst+data.pst);
-        gst=subtotal*data.gst;
-        pst=subtotal*data.pst;
-      }else{
-        subtotal=total/(1+data.gst);
-        gst=total-subtotal;
-      }
-    }else{
-      // Add tax - amount is base
-      subtotal=amount;
-      if(data.type==='hst'){
-        hst=subtotal*data.hst;
-        total=subtotal+hst;
-      }else if(data.type==='qst'){
-        gst=subtotal*data.gst;
-        const afterGST=subtotal+gst;
-        qst=afterGST*data.qst;
-        total=subtotal+gst+qst;
-      }else if(data.type==='gstpst'){
-        gst=subtotal*data.gst;
-        pst=subtotal*data.pst;
-        total=subtotal+gst+pst;
-      }else{
-        gst=subtotal*data.gst;
-        total=subtotal+gst;
-      }
-    }
-
-    const totalTax=total-subtotal;
-    const effRate=subtotal>0?(totalTax/subtotal)*100:0;
-
-    // Null-safe updates - Fixed from US Payroll bug
-    const setText=(id,val)=>{
-      const el=document.getElementById(id);
-      if(el)el.textContent=val;
-    };
-    const setDisplay=(id,disp)=>{
-      const el=document.getElementById(id);
-      if(el)el.style.display=disp;
-    };
-
-    setText('subtotal',formatCAD(subtotal));
-    setText('gst',formatCAD(gst));
-    setText('pst',formatCAD(pst));
-    setText('hst',formatCAD(hst));
-    setText('qst',formatCAD(qst));
-    setText('total',formatCAD(total));
-    setText('totalTax',formatCAD(totalTax));
-    setText('effRate',effRate.toFixed(2)+'%');
-    setText('provinceName',data.name);
-
-    // Show/hide rows based on province type
-    setDisplay('gstRow',data.type!=='hst'?'flex':'none');
-    setDisplay('pstRow',data.type==='gstpst'?'flex':'none');
-    setDisplay('hstRow',data.type==='hst'?'flex':'none');
-    setDisplay('qstRow',data.type==='qst'?'flex':'none');
-
-    const pstLabel=document.getElementById('pstLabel');
-    if(pstLabel&&data.type==='gstpst'){
-      pstLabel.textContent=`PST ${(data.pst*100).toFixed(0)}%`;
-    }
-
-    setDisplay('results','block');
-    setDisplay('actions','grid');
-  }
-
-  // Null-safe event listeners - Fixed from US Payroll bug
-  const calcBtn=document.getElementById('calculateBtn');
-  if(calcBtn)calcBtn.addEventListener('click',calculate);
-
-  ['amount','province'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){
-      el.addEventListener('input',()=>{
-        updateProvinceInfo();
-        calculate();
-      });
-      el.addEventListener('change',()=>{
-        updateProvinceInfo();
-        calcula
+    if(mode==='breakdown'){
+      // Side-by-side comparison
+      const addRes=calcTaxes(amount,data,false);
+      const remRes=calcT
