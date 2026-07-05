@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UK VAT Calculator 2025 - Add & Remove 20% VAT | MONIETOOLS</title>
+<meta name="description" content="Free UK VAT calculator for 2025. Add or remove 20% VAT, flat rate scheme, and reverse charge. HMRC compliant. No sign-up required.">
+<meta name="theme-color" content="#0f172a">
+<link rel="stylesheet" href="../style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"UK VAT Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"}}
+</script>
+<style>
+.tool-wrap{max-width:800px;margin:32px auto}
+.tool-header{text-align:center;margin-bottom:32px}
+.tool-header h1{font-size:clamp(24px,4vw,36px);font-weight:800;margin-bottom:8px}
+.tool-header p{color:var(--muted);font-size:16px}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.tabs{display:flex;background:var(--navy);border-radius:var(--radius-sm);padding:4px;margin-bottom:20px}
+.tab{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer;transition:all var(--t)}
+.tab.active{background:var(--purple);color:white}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
+.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;color:var(--text);font-size:16px;outline:0;transition:all var(--t)}
+.input-group input:focus,.input-group select:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
+.results{background:var(--navy);border-radius:var(--radius-sm);padding:20px;margin-top:20px}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.result-row:last-child{border:none;font-weight:700;font-size:18px;color:var(--purple);padding-top:14px}
+.result-row span:first-child{color:var(--muted)}
+.btn{display:inline-block;width:100%;background:var(--purple);color:white;border:none;padding:14px;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;transition:all var(--t);margin-top:12px}
+.btn:hover{background:var(--purple-dark);transform:translateY(-2px)}
+.info-box{background:var(--navy);border-left:3px solid var(--purple);padding:16px;border-radius:var(--radius-sm);margin:24px 0;font-size:14px;line-height:1.6}
+.info-box strong{color:var(--text)}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--purple);font-weight:600;margin-bottom:20px;transition:gap var(--t)}
+.back-link:hover{gap:12px}
+@media(min-width:640px){.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="../">MONIE<span>TOOLS</span></a>
+    <nav class="nav">
+      <a href="../">All Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
 
+<main>
+<div class="container">
+  <div class="tool-wrap">
+    <a href="../" class="back-link">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      All Tools
+    </a>
+    
+    <div class="tool-header">
+      <h1>🇬🇧 UK VAT Calculator 2025</h1>
+      <p>Add or remove 20% VAT. Includes flat rate scheme & reverse charge. HMRC compliant rates.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="tabs">
+        <button class="tab active" data-tab="add">Add VAT</button>
+        <button class="tab" data-tab="remove">Remove VAT</button>
+      </div>
+
+      <div class="calc-grid">
+        <div class="input-group">
+          <label for="amount">Amount (£)</label>
+          <input type="number" id="amount" placeholder="100.00" value="100" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label for="rate">VAT Rate</label>
+          <select id="rate">
+            <option value="20">Standard Rate - 20%</option>
+            <option value="5">Reduced Rate - 5%</option>
+            <option value="0">Zero Rate - 0%</option>
+            <option value="16.5">Flat Rate 16.5%</option>
+            <option value="14.5">Flat Rate 14.5%</option>
+            <option value="12">Flat Rate 12%</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn" id="calculate">Calculate VAT</button>
+
+      <div class="results" id="results" style="display:none">
+        <div class="result-row">
+          <span id="label-net">Net Amount</span>
+          <span id="net">£0.00</span>
+        </div>
+        <div class="result-row">
+          <span>VAT Amount</span>
+          <span id="vat">£0.00</span>
+        </div>
+        <div class="result-row">
+          <span id="label-gross">Gross Amount</span>
+          <span id="gross">£0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-slot"><span>Advertisement</span></div>
+
+    <div class="info-box">
+      <strong>Standard Rate 20%:</strong> Applies to most goods and services in the UK.<br>
+      <strong>Reduced Rate 5%:</strong> Domestic fuel, children's car seats, energy-saving materials.<br>
+      <strong>Zero Rate 0%:</strong> Food, books, children's clothes, prescriptions.<br>
+      <strong>Flat Rate Scheme:</strong> Simplified VAT for small businesses under £150k turnover.
+    </div>
+
+    <div class="calc-card">
+      <h3>How to Use This Calculator</h3>
+      <p style="color:var(--muted);line-height:1.7;margin-top:12px">
+        <strong>1. Add VAT:</strong> Enter your net price to calculate the gross price including VAT.<br>
+        <strong>2. Remove VAT:</strong> Enter your gross price to extract the net price and VAT amount.<br>
+        <strong>3. Flat Rate:</strong> Select your sector’s flat rate percentage if you’re on the Flat Rate Scheme.<br>
+        All calculations use official HMRC rates for 2025/26. This tool is for estimates only - not tax advice.
+      </p>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 MONIETOOLS. Calculations are estimates. Not financial or tax advice. Consult HMRC or an accountant.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const amount=document.getElementById('amount'),rate=document.getElementById('rate'),results=document.getElementById('results');
+const netEl=document.getElementById('net'),vatEl=document.getElementById('vat'),grossEl=document.getElementById('gross');
+const labelNet=document.getElementById('label-net'),labelGross=document.getElementById('label-gross');
+let mode='add';
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    mode=tab.dataset.tab;
+    calculate();
+  });
+});
+
+function formatGBP(n){return new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(n)}
+
+function calculate(){
+  const amt=parseFloat(amount.value)||0,r=parseFloat(rate.value)/100;
+  if(amt<=0){results.style.display='none';return}
+  let net,vat,gross;
+  
+  if(mode==='add'){
+    net=amt;vat=amt*r;gross=amt+vat;
+    labelNet.textContent='Net Amount';labelGross.textContent='Gross Amount';
+  }else{
+    gross=amt;net=amt/(1+r);vat=gross-net;
+    labelNet.textContent='Net Amount';labelGross.textContent='Gross Amount';
+  }
+  
+  netEl.textContent=formatGBP(net);
+  vatEl.textContent=formatGBP(vat);
+  grossEl.textContent=formatGBP(gross);
+  results.style.display='block';
+}
+
+document.getElementById('calculate').addEventListener('click',calculate);
+amount.addEventListener('input',calculate);
+rate.addEventListener('change',calculate);
+calculate();
+</script>
+</body>
+  </html>
