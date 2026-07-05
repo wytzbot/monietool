@@ -9,16 +9,13 @@
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"MONIETOOLS","url":"https://wytzbot.github.io/monietool/","potentialAction":{"@type":"SearchAction","target":"https://wytzbot.github.io/monietool/?q={search_term_string}","query-input":"required name=search_term_string"}}
-</script>
 </head>
 <body>
 <header class="header">
   <div class="container header-inner">
     <a class="logo" href="./">MONIE<span>TOOLS</span></a>
     <nav class="nav">
-      <a href="tools/">All Tools</a>
+      <a href="./">All Tools</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -39,10 +36,7 @@
     </div>
   </section>
   
-  <!-- AdSense: Replace data-ad-client with yours -->
-  <div class="ad-slot">
-    <span>Advertisement</span>
-  </div>
+  <div class="ad-slot"><span>Advertisement</span></div>
   
   <section class="grid" id="toolGrid"></section>
 </div>
@@ -65,11 +59,11 @@
         </div>
         <div>
           <h4>Countries</h4>
-          <a href="uk/">United Kingdom</a>
-          <a href="us/">United States</a>
-          <a href="ca/">Canada</a>
-          <a href="mx/">Mexico</a>
-          <a href="br/">Brazil</a>
+          <a href="./">United Kingdom</a>
+          <a href="./">United States</a>
+          <a href="./">Canada</a>
+          <a href="./">Mexico</a>
+          <a href="./">Brazil</a>
         </div>
         <div>
           <h4>Company</h4>
@@ -95,6 +89,7 @@
 </footer>
 
 <script>
+console.log('Script starting...');
 const tools=[
 {name:"UK VAT Calculator 2025",desc:"20% VAT, flat rate & reverse charge. HMRC compliant for invoices.",icon:"🇬🇧",url:"tools/uk-vat-calculator.html",tags:["UK","Tax"],vol:"8.1K/mo"},
 {name:"US Payroll Tax Calculator",desc:"Federal + FICA + State tax for W-2 employees. All 50 states.",icon:"🇺🇸",url:"tools/us-payroll-tax.html",tags:["US","HR"],vol:"12K/mo"},
@@ -107,9 +102,16 @@ const tools=[
 {name:"USCIS Fee Calculator",desc:"I-130, I-485, N-400 fees 2026. Immigration forms cost estimator.",icon:"🛂",url:"tools/uscis-fee-calculator.html",tags:["US","Immigration"],vol:"7.2K/mo"},
 {name:"Contractor vs Employee UK",desc:"IR35 status test + tax difference. Inside/outside calculator.",icon:"⚖️",url:"tools/uk-ir35-calculator.html",tags:["UK","Legal"],vol:"2.8K/mo"}];
 
-const grid=document.getElementById('toolGrid'),search=document.getElementById('toolSearch');
+const grid=document.getElementById('toolGrid');
+const search=document.getElementById('toolSearch');
+console.log('Grid element:', grid);
+
 function renderTools(f=tools){
-  if(!grid)return;
+  console.log('Rendering tools:', f.length);
+  if(!grid){
+    console.error('Grid not found!');
+    return;
+  }
   grid.innerHTML=f.map(t=>`
   <a class="card" href="${t.url}">
     <div class="card-top">
@@ -119,10 +121,28 @@ function renderTools(f=tools){
     <h3>${t.name}</h3>
     <p>${t.desc}</p>
     <div class="badges">${t.tags.map(tag=>`<span class="badge">${tag}</span>`).join('')}</div>
-  </a>`).join('')
+  </a>`).join('');
+  console.log('Cards rendered');
 }
-search&&search.addEventListener('input',e=>{const v=e.target.value.toLowerCase();renderTools(tools.filter(t=>t.name.toLowerCase().includes(v)||t.desc.toLowerCase().includes(v)||t.tags.some(tag=>tag.toLowerCase().includes(v))))});renderTools();
-document.addEventListener('mousemove',e=>{const t=e.target.closest('.card');if(t){const r=t.getBoundingClientRect();t.style.setProperty('--x',e.clientX-r.left+'px');t.style.setProperty('--y',e.clientY-r.top+'px')}});
+
+if(search){
+  search.addEventListener('input',e=>{
+    const v=e.target.value.toLowerCase();
+    renderTools(tools.filter(t=>t.name.toLowerCase().includes(v)||t.desc.toLowerCase().includes(v)||t.tags.some(tag=>tag.toLowerCase().includes(v))))
+  });
+}
+
+renderTools();
+
+document.addEventListener('mousemove',e=>{
+  const t=e.target.closest('.card');
+  if(t){
+    const r=t.getBoundingClientRect();
+    t.style.setProperty('--x',e.clientX-r.left+'px');
+    t.style.setProperty('--y',e.clientY-r.top+'px');
+  }
+});
+console.log('Script loaded');
 </script>
 </body>
-  </html>
+            </html>
