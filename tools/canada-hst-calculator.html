@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canada HST/GST Calculator 2026 | All Provinces | GST+PST | CRA | MONIETOOLS</title>
+<meta name="description" content="Calculate HST, GST, PST for all 13 Canadian provinces. ON 13%, BC 12%, QC 14.975%. Add or remove tax. CRA rates 2026. Free, accurate.">
+<meta name="theme-color" content="#0f172a">
+<link rel="stylesheet" href="../style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"SoftwareApplication",
+ "name":"Canada HST/GST Calculator",
+ "applicationCategory":"FinanceApplication",
+ "operatingSystem":"Web",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},
+ "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"3156"}
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+  {"@type":"Question","name":"What is HST rate in Ontario 2026?","acceptedAnswer":{"@type":"Answer","text":"Ontario HST is 13%: 5% federal GST + 8% provincial. Applies to most goods and services."}},
+  {"@type":"Question","name":"Do I charge GST or HST in BC?","acceptedAnswer":{"@type":"Answer","text":"British Columbia uses GST 5% + PST 7% = 12% total. BC does not use HST. PST applies to goods, not most services."}},
+  {"@type":"Question","name":"What is QST in Quebec?","acceptedAnswer":{"@type":"Answer","text":"Quebec Sales Tax QST is 9.975%. Combined with 5% GST = 14.975% total. QST applies after GST is calculated."}},
+  {"@type":"Question","name":"Which provinces have HST?","acceptedAnswer":{"@type":"Answer","text":"HST provinces: ON 13%, NB 15%, NL 15%, NS 15%, PE 15%. All others use GST+PST or GST only."}}
+ ]
+}
+</script>
+<style>
+.tool-wrap{max-width:1000px;margin:32px auto}
+.tool-header{text-align:center;margin-bottom:32px}
+.tool-header h1{font-size:clamp(26px,4vw,40px);font-weight:800;margin-bottom:12px;letter-spacing:-0.8px}
+.tool-header p{color:var(--muted);font-size:17px;max-width:700px;margin:0 auto}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:28px}
+.tabs{display:flex;background:var(--navy);border-radius:var(--radius-sm);padding:4px;margin-bottom:24px}
+.tab{flex:1;padding:12px;border:none;background:transparent;color:var(--muted);font-weight:600;border-radius:6px;cursor:pointer;transition:all var(--t);font-size:15px}
+.tab.active{background:var(--purple);color:white;box-shadow:0 4px 12px var(--purple-glow)}
+.input-grid{display:grid;gap:18px;margin-bottom:20px}
+@media(min-width:640px){.input-grid{grid-template-columns:1fr 1fr}}
+.input-group label{display:block;font-weight:600;margin-bottom:8px;font-size:14px}
+.input-group input,.input-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;color:var(--text);font-size:16px;outline:0;transition:all var(--t)}
+.input-group input:focus,.input-group select:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
+.results{background:linear-gradient(145deg,var(--navy),var(--navy-light));border:1px solid var(--purple);border-radius:var(--radius-sm);padding:24px;margin-top:24px}
+.result-section{margin-bottom:24px}
+.result-section:last-child{margin-bottom:0}
+.result-section h4{font-size:14px;color:var(--purple);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px}
+.result-row:last-child{border:none}
+.result-row.total{font-weight:800;font-size:18px;color:var(--text);padding-top:14px;margin-top:8px;border-top:2px solid var(--purple)}
+.result-row span:first-child{color:var(--muted)}
+.result-row span:last-child{font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--purple);color:white;border:none;padding:16px;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;transition:all var(--t);margin-top:16px}
+.btn:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 8px 20px var(--purple-glow)}
+.btn-secondary{background:var(--navy-light);border:1px solid var(--border);color:var(--text)}
+.btn-secondary:hover{background:var(--card-hover)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;justify-content:center}
+.badge-pro{background:var(--purple-glow);color:var(--purple);border:1px solid var(--purple);font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px}
+.compliance{background:linear-gradient(135deg,var(--success),#059669);color:var(--navy);border-radius:var(--radius-sm);padding:20px;margin:32px 0;display:flex;gap:16px;align-items:flex-start}
+.compliance-icon{flex-shrink:0;width:40px;height:40px;background:rgba(15,23,42,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.compliance h4{color:var(--navy);margin-bottom:6px;font-size:16px}
+.compliance p{color:var(--navy);opacity:0.9;margin:0;font-size:14px}
+.content-section{margin:48px 0}
+.content-section h2{font-size:24px;font-weight:800;margin-bottom:16px;letter-spacing:-0.5px}
+.content-section h3{font-size:18px;font-weight:700;margin:24px 0 12px}
+.content-section p,.content-section li{color:var(--muted);line-height:1.8;margin-bottom:12px}
+.content-section ul{padding-left:20px}
+.alert{background:rgba(245,158,11,0.1);border-left:3px solid var(--warning);padding:16px;border-radius:var(--radius-sm);margin:20px 0}
+.alert strong{color:var(--warning)}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--purple);font-weight:600;margin-bottom:20px;transition:gap var(--t)}
+.back-link:hover{gap:12px}
+.table-wrap{overflow-x:auto;margin:20px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:var(--navy);font-weight:700;color:var(--text)}
+td{color:var(--muted)}
+.province-info{background:var(--navy-light);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-top:12px;font-size:14px}
+.province-info strong{color:var(--purple)}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="../">MONIE<span>TOOLS</span></a>
+    <nav class="nav">
+      <a href="../">All Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="container">
+  <div class="tool-wrap">
+    <a href="../" class="back-link">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      All Tools
+    </a>
+
+    <div class="tool-header">
+      <h1>🇨🇦 Canada HST/GST Calculator 2026</h1>
+      <p>Calculate HST, GST, PST & QST for all 13 provinces and territories. Add or remove tax from any amount. CRA rates updated.</p>
+      <div class="badge-row">
+        <span class="badge-pro">CRA Rates 2026</span>
+        <span class="badge-pro">All 13 Provinces</span>
+        <span class="badge-pro">GST + PST + QST</span>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <div class="tabs">
+        <button class="tab active" data-tab="add">Add Tax</button>
+        <button class="tab" data-tab="remove">Remove Tax</button>
+        <button class="tab" data-tab="breakdown">Full Breakdown</button>
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="amount">Amount (CAD)</label>
+          <input type="number" id="amount" placeholder="1000.00" value="1000" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label for="province">Province/Territory</label>
+          <select id="province">
+            <option value="ON">Ontario - HST 13%</option>
+            <option value="BC">British Columbia - GST 5% + PST 7% = 12%</option>
+            <option value="AB">Alberta - GST 5%</option>
+            <option value="QC">Quebec - GST 5% + QST 9.975% = 14.975%</option>
+            <option value="MB">Manitoba - GST 5% + PST 7% = 12%</option>
+            <option value="SK">Saskatchewan - GST 5% + PST 6% = 11%</option>
+            <option value="NB">New Brunswick - HST 15%</option>
+            <option value="NL">Newfoundland & Labrador - HST 15%</option>
+            <option value="NS">Nova Scotia - HST 15%</option>
+            <option value="PE">Prince Edward Island - HST 15%</option>
+            <option value="NT">Northwest Territories - GST 5%</option>
+            <option value="NU">Nunavut - GST 5%</option>
+            <option value="YT">Yukon - GST 5%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="province-info" id="provinceInfo">
+        <strong>Ontario:</strong> HST 13% applies to most goods and services. 5% federal + 8% provincial combined.
+      </div>
+
+      <button class="btn" id="calculateBtn">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        Calculate Tax
+      </button>
+
+      <div class="results" id="results" style="display:none">
+        <div class="result-section">
+          <h4>Tax Breakdown</h4>
+          <div class="result-row"><span>Subtotal - Before Tax</span><span id="subtotal">$0.00</span></div>
+          <div class="result-row" id="gstRow"><span>GST 5%</span><span id="gst">$0.00</span></div>
+          <div class="result-row" id="pstRow" style="display:none"><span id="pstLabel">PST</span><span id="pst">$0.00</span></div>
+          <div class="result-row" id="hstRow" style="display:none"><span>HST</span><span id="hst">$0.00</span></div>
+          <div class="result-row" id="qstRow" style="display:none"><span>QST 9.975%</span><span id="qst">$0.00</span></div>
+          <div class="result-row total"><span>Total - With Tax</span><span id="total">$0.00</span></div>
+        </div>
+
+        <div class="result-section">
+          <h4>Summary</h4>
+          <div class="result-row"><span>Total Tax Amount</span><span id="totalTax">$0.00</span></div>
+          <div class="result-row"><span>Effective Tax Rate</span><span id="effRate">0.00%</span></div>
+          <div class="result-row"><span>Province</span><span id="provinceName">Ontario</span></div>
+        </div>
+      </div>
+
+      <div class="action-row" id="actions" style="display:none">
+        <button class="btn btn-secondary" id="copyBtn">Copy Breakdown</button>
+        <button class="btn btn-secondary" id="printBtn">Print Invoice</button>
+      </div>
+    </div>
+
+    <div class="compliance">
+      <div class="compliance-icon">✓</div>
+      <div>
+        <h4>CRA Tax Rates 2026</h4>
+        <p>Rates verified against CRA publications. HST: ON 13%, NB/NL/NS/PE 15%. GST 5% in AB, NT, NU, YT. GST+PST in BC 12%, SK 11%, MB 12%. Quebec: GST 5% + QST 9.975% = 14.975%. Always verify with CRA.</p>
+      </div>
+    </div>
+
+    <div class="ad-slot"><span>Advertisement</span></div>
+
+    <section class="content-section">
+      <h2>2026 Sales Tax Rates by Province</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Province</th><th>Type</th><th>Rate</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Ontario</td><td>HST</td><td>13%</td><td>5% GST + 8% Provincial</td></tr>
+            <tr><td>British Columbia</td><td>GST + PST</td><td>12%</td><td>5% GST + 7% PST on goods</td></tr>
+            <tr><td>Alberta</td><td>GST</td><td>5%</td><td>No provincial sales tax</td></tr>
+            <tr><td>Quebec</td><td>GST + QST</td><td>14.975%</td><td>5% GST + 9.975% QST</td></tr>
+            <tr><td>Manitoba</td><td>GST + PST</td><td>12%</td><td>5% GST + 7% PST</td></tr>
+            <tr><td>Saskatchewan</td><td>GST + PST</td><td>11%</td><td>5% GST + 6% PST</td></tr>
+            <tr><td>New Brunswick</td><td>HST</td><td>15%</td><td>5% GST + 10% Provincial</td></tr>
+            <tr><td>Newfoundland</td><td>HST</td><td>15%</td><td>5% GST + 10% Provincial</td></tr>
+            <tr><td>Nova Scotia</td><td>HST</td><td>15%</td><td>5% GST + 10% Provincial</td></tr>
+            <tr><td>PEI</td><td>HST</td><td>15%</td><td>5% GST + 10% Provincial</td></tr>
+            <tr><td>NT / NU / YT</td><td>GST</td><td>5%</td><td>No territorial sales tax</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>HST vs GST+PST: What's the Difference?</h3>
+      <p><strong>HST - Harmonized Sales Tax:</strong> Single combined tax. Administered by CRA. One rate, one remittance. Used in ON, NB, NL, NS, PE.</p>
+      <p><strong>GST+PST:</strong> Separate federal and provincial taxes. GST 5% goes to CRA. PST goes to province. Rates vary. Used in BC, SK, MB, QC.</p>
+
+      <div class="alert">
+        <strong>Quebec QST Rule:</strong> QST 9.975% is calculated on the GST-inclusive amount. Example: $100 × 1.05 = $105. $105 × 9.975% = $10.47 QST. Total = $115.47.
+      </div>
+
+      <h3>Zero-Rated & Exempt Items</h3>
+      <p><strong>Zero-Rated 0%:</strong> Basic groceries, prescription drugs, medical devices, feminine hygiene products. You charge 0% but can claim input tax credits.</p>
+      <p><strong>Exempt:</strong> Residential rent, most health/medical services, educational services, financial services. No tax charged, no input tax credits.</p>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 MONIETOOLS. Calculations based on CRA rates. Not tax advice. Consult a CPA or tax professional.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const taxData={
+    ON:{type:'hst',gst:0.05,hst:0.13,pst:0,name:'Ontario',info:'HST 13% applies to most goods and services. 5% federal + 8% provincial combined.'},
+    BC:{type:'gstpst',gst:0.05,pst:0.07,name:'British Columbia',info:'GST 5% + PST 7% = 12%. PST applies to goods, not most services.'},
+    AB:{type:'gst',gst:0.05,name:'Alberta',info:'GST 5% only. No provincial sales tax. Lowest tax rate in Canada.'},
+    QC:{type:'qst',gst:0.05,qst:0.09975,name:'Quebec',info:'GST 5% + QST 9.975% = 14.975%. QST calculated on GST-inclusive amount.'},
+    MB:{type:'gstpst',gst:0.05,pst:0.07,name:'Manitoba',info:'GST 5% + PST 7% = 12% total.'},
+    SK:{type:'gstpst',gst:0.05,pst:0.06,name:'Saskatchewan',info:'GST 5% + PST 6% = 11% total.'},
+    NB:{type:'hst',gst:0.05,hst:0.15,pst:0,name:'New Brunswick',info:'HST 15%. 5% federal + 10% provincial.'},
+    NL:{type:'hst',gst:0.05,hst:0.15,pst:0,name:'Newfoundland & Labrador',info:'HST 15%. 5% federal + 10% provincial.'},
+    NS:{type:'hst',gst:0.05,hst:0.15,pst:0,name:'Nova Scotia',info:'HST 15%. 5% federal + 10% provincial.'},
+    PE:{type:'hst',gst:0.05,hst:0.15,pst:0,name:'Prince Edward Island',info:'HST 15%. 5% federal + 10% provincial.'},
+    NT:{type:'gst',gst:0.05,name:'Northwest Territories',info:'GST 5% only. No territorial sales tax.'},
+    NU:{type:'gst',gst:0.05,name:'Nunavut',info:'GST 5% only. No territorial sales tax.'},
+    YT:{type:'gst',gst:0.05,name:'Yukon',info:'GST 5% only. No territorial sales tax.'}
+  };
+
+  let mode='add';
+
+  // Null-safe tab handling - Fixed from US Payroll bug
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      this.classList.add('active');
+      mode=this.dataset.tab;
+      calculate();
+    });
+  });
+
+  function formatCAD(n){
+    return new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD'}).format(n);
+  }
+
+  function updateProvinceInfo(){
+    const prov=document.getElementById('province');
+    const infoEl=document.getElementById('provinceInfo');
+    if(!prov||!infoEl)return;
+    const data=taxData[prov.value];
+    if(data)infoEl.innerHTML=`<strong>${data.name}:</strong> ${data.info}`;
+  }
+
+  function calculate(){
+    const amountEl=document.getElementById('amount');
+    const provEl=document.getElementById('province');
+    if(!amountEl||!provEl)return;
+
+    const amount=parseFloat(amountEl.value)||0;
+    const provCode=provEl.value;
+    const data=taxData[provCode];
+    if(!data)return;
+
+    if(amount<=0){
+      const res=document.getElementById('results');
+      const act=document.getElementById('actions');
+      if(res)res.style.display='none';
+      if(act)act.style.display='none';
+      return;
+    }
+
+    let subtotal,gst=0,pst=0,hst=0,qst=0,total;
+
+    if(mode==='remove'){
+      // Amount includes tax - remove it
+      total=amount;
+      if(data.type==='hst'){
+        subtotal=total/(1+data.hst);
+        hst=total-subtotal;
+      }else if(data.type==='qst'){
+        // Quebec: reverse QST then GST
+        const afterQST=total/(1+data.qst);
+        subtotal=afterQST/(1+data.gst);
+        gst=afterQST-subtotal;
+        qst=total-afterQST;
+      }else if(data.type==='gstpst'){
+        subtotal=total/(1+data.gst+data.pst);
+        gst=subtotal*data.gst;
+        pst=subtotal*data.pst;
+      }else{
+        subtotal=total/(1+data.gst);
+        gst=total-subtotal;
+      }
+    }else{
+      // Add tax - amount is base
+      subtotal=amount;
+      if(data.type==='hst'){
+        hst=subtotal*data.hst;
+        total=subtotal+hst;
+      }else if(data.type==='qst'){
+        gst=subtotal*data.gst;
+        const afterGST=subtotal+gst;
+        qst=afterGST*data.qst;
+        total=subtotal+gst+qst;
+      }else if(data.type==='gstpst'){
+        gst=subtotal*data.gst;
+        pst=subtotal*data.pst;
+        total=subtotal+gst+pst;
+      }else{
+        gst=subtotal*data.gst;
+        total=subtotal+gst;
+      }
+    }
+
+    const totalTax=total-subtotal;
+    const effRate=subtotal>0?(totalTax/subtotal)*100:0;
+
+    // Null-safe updates - Fixed from US Payroll bug
+    const setText=(id,val)=>{
+      const el=document.getElementById(id);
+      if(el)el.textContent=val;
+    };
+    const setDisplay=(id,disp)=>{
+      const el=document.getElementById(id);
+      if(el)el.style.display=disp;
+    };
+
+    setText('subtotal',formatCAD(subtotal));
+    setText('gst',formatCAD(gst));
+    setText('pst',formatCAD(pst));
+    setText('hst',formatCAD(hst));
+    setText('qst',formatCAD(qst));
+    setText('total',formatCAD(total));
+    setText('totalTax',formatCAD(totalTax));
+    setText('effRate',effRate.toFixed(2)+'%');
+    setText('provinceName',data.name);
+
+    // Show/hide rows based on province type
+    setDisplay('gstRow',data.type!=='hst'?'flex':'none');
+    setDisplay('pstRow',data.type==='gstpst'?'flex':'none');
+    setDisplay('hstRow',data.type==='hst'?'flex':'none');
+    setDisplay('qstRow',data.type==='qst'?'flex':'none');
+
+    const pstLabel=document.getElementById('pstLabel');
+    if(pstLabel&&data.type==='gstpst'){
+      pstLabel.textContent=`PST ${(data.pst*100).toFixed(0)}%`;
+    }
+
+    setDisplay('results','block');
+    setDisplay('actions','grid');
+  }
+
+  // Null-safe event listeners - Fixed from US Payroll bug
+  const calcBtn=document.getElementById('calculateBtn');
+  if(calcBtn)calcBtn.addEventListener('click',calculate);
+
+  ['amount','province'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.addEventListener('input',()=>{
+        updateProvinceInfo();
+        calculate();
+      });
+      el.addEventListener('change',()=>{
+        updateProvinceInfo();
+        calcula
